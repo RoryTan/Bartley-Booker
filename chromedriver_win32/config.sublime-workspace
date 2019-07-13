@@ -1,0 +1,250 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"dim",
+				"dim_rrp"
+			],
+			[
+				"Locatio",
+				"location"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 137.0,
+		"last_filter": "Package Control: install",
+		"selected_items":
+		[
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: package",
+				"Package Control: List Packages"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 412.0
+	},
+	"console":
+	{
+		"height": 160.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/User/iCloudDrive/Bartley Ridge/Facility Bookings/Bartley Booker/Tennis Courts for Sunday AM .bat",
+		"/C/Users/User/iCloudDrive/Bartley Ridge/Facility Bookings/Bartley Booker/Tennis Courts for Saturday PM.bat",
+		"/C/Users/User/iCloudDrive/Bartley Ridge/Facility Bookings/Bartley Booker/Tennis Courts for Sunday AM.py",
+		"/C/Users/User/iCloudDrive/Bartley Ridge/Facility Bookings/Bartley Booker/Tennis Courts for Saturday PM.py",
+		"/C/Users/User/iCloudDrive/Bartley Ridge/Facility Bookings/Bartley Booker/Bartley_Booker_Bot.py",
+		"/C/Users/User/Documents/test2.json",
+		"/E/Downloads/Deposits_Singapore_v1.0.json",
+		"/C/Users/User/.ynab.env",
+		"/C/Users/User/YNAB_CLI.txt",
+		"/C/Users/User/tobeuploaded.txt",
+		"/E/Downloads/ETL.py",
+		"/C/Users/User/Desktop/Ynab ETL/.gitignore.txt",
+		"/C/Users/User/iCloudDrive/Finance/YNAB/YNAB-Processing/Ynab Processing.py",
+		"/C/Users/User/iCloudDrive/Finance/Personal Finance Data/YNAB-Processing/ETL.py",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/Exasol Create BDM.SQL",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/BDM - WSSI 3.1 (local).sql",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/Buying Full Fact 2.11 (Local).sql",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/Buying Full Fact 2.11.sql",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/BDM - Initial SQL.sql",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/BDM - WSSI 3.0.sql",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/Buying Full Fact 1.12.sql",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/BDM - WSSI.sql",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/Buying Full Fact.sql",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/BDM - Ctry-Cat-Dep-Brand Grp Agg.sql",
+		"/E/Cloud Storage/Gdrive - Work/Scripts/SQL/Buying/Buying Full Fact 1.11.sql",
+		"/C/Users/User/Google Drive/Scripts/Fact Sales + Inventory.sql",
+		"/C/Users/User/Google Drive/Scripts/On Time Delivery Data Frame.R",
+		"/C/Users/User/Google Drive/Scripts/Sales_reporting.sql",
+		"/C/Users/User/Google Drive/Scripts/Category Group.sql",
+		"/C/Users/User/Google Drive/Scripts/Product_season_status.sql",
+		"/C/Users/User/Google Drive/Scripts/prodview.sql",
+		"/C/Users/User/Google Drive/Scripts/Sales aProvisioning.sql",
+		"/C/Users/User/Google Drive/Scripts/Buying's Department Logic.sql"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"card",
+			"credit",
+			"trans",
+			"fact.rrp",
+			"rrp_inbounded",
+			"eur",
+			"fact.rrp",
+			"fact.",
+			"_lcy",
+			"_lcy * fx.static_fx",
+			"cc.supplier",
+			"is_visible_cluster",
+			"visible",
+			"',\n",
+			"left join",
+			"temp_cluster",
+			"marketplace",
+			"lcy,",
+			"library",
+			"\"",
+			"\\",
+			"11)"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": true,
+		"regex": false,
+		"replace_history":
+		[
+			"fact.\"Static RRP (Eur)\"",
+			"fact.\"rrp inbound (eur)\"",
+			"",
+			"static_eur,",
+			"install.packages",
+			"",
+			"/"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "config.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
