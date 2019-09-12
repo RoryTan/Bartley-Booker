@@ -28,7 +28,7 @@ def booking_xpath(day_slot):
     return xpath
 def write_out(message):
      with open('Bartley_Booker_Logs.txt','a+') as f:
-                f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M') +                          ": "+ message + "\n")
+                f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message + "\n")
 
 
 # In[11]:
