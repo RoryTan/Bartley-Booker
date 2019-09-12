@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[34]:
+# In[9]:
 
 
-from config import keys
-from config import slots
-from config import frame
+from config import *
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import sys
 import datetime
+import time
 
 
-# In[43]:
+# In[10]:
 
 
 #Get date 2 weeks from now and convert to urlstring
 def get_url(booking_url):
-    book_date = datetime.datetime.today() + datetime.timedelta(days=14)
+    book_date = datetime.datetime.today() + datetime.timedelta(days=15)
     book_date_str = book_date.strftime('%Y-%m-%d')
     booking_date_url = booking_url + book_date_str
     return booking_date_url
@@ -28,25 +28,41 @@ def booking_xpath(day_slot):
     return xpath
 def write_out(message):
      with open('Bartley_Booker_Logs.txt','a+') as f:
-                f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M') +                          ": "+ message + "\r\n")
+                f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M') +                          ": "+ message + "\n")
 
 
-# In[44]:
+# In[11]:
 
 
 def book_facility():
-    day_slots = slots[datetime.datetime.today().weekday()]        
+    day_slots = slots[(datetime.datetime.today() + datetime.timedelta(days=1)).weekday()]
+    
     if day_slots:
-        write_out('Found desired booking slots, initating booking')        
+        write_out('Found desired booking slots, initating booking')
+        
         try:            
-            driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
+            #Run Headless
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
+#             driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
             driver.get(get_url(keys['booking_url']))
             driver.find_element_by_xpath('//*[@id="txtUser"]').send_keys(keys["user_id"]) #User
             driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
             driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
+            #Wait for 12
+            curr = datetime.datetime.now()
+            start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+            wait_time = start - curr
+            write_out('Waiting for {}'.format(wait_time))
+            wait_time_int = wait_time.total_seconds()            
+            time.sleep(wait_time_int)
+            write_out('Starting...')
+            driver.refresh()
         except:
             write_out("Failed to logon, exiting webdriver")
-            driver.quit()        
+            driver.quit()
+            
         #Select slots            
         for day_slot in day_slots:
             try:
@@ -69,15 +85,9 @@ def book_facility():
         write_out('Found no desired booking slots for ' + datetime.datetime.today().weekday())                
 
 
-# In[45]:
+# In[12]:
 
 
 if __name__ == '__main__':
     book_facility()
-
-
-# In[ ]:
-
-
-
 
