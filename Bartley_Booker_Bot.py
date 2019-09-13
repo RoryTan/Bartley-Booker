@@ -29,10 +29,9 @@ def booking_xpath(day_slot):
 def write_out(message):
      with open('Bartley_Booker_Logs.txt','a+') as f:
                 f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message + "\n")
-
+                print(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message) #For test purposes only
 
 # In[11]:
-
 
 def book_facility():
     day_slots = slots[(datetime.datetime.today() + datetime.timedelta(days=1)).weekday()]
@@ -52,12 +51,12 @@ def book_facility():
             driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
             #Wait for 12
             curr = datetime.datetime.now()
-            start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+            start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=1, microsecond=0)
             wait_time = start - curr
             write_out('Waiting for {}'.format(wait_time))
             wait_time_int = wait_time.total_seconds()            
             time.sleep(wait_time_int)
-            write_out('Starting...')
+            write_out('Starting...')  
             driver.refresh()
         except:
             write_out("Failed to logon, exiting webdriver")
