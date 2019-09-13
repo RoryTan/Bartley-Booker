@@ -17,7 +17,7 @@ import time
 
 #Get date 2 weeks from now and convert to urlstring
 def get_url(booking_url):
-    book_date = datetime.datetime.today() + datetime.timedelta(days=15)
+    book_date = datetime.datetime.today() + datetime.timedelta(days=15)#use 14 when testing 15 when executing
     book_date_str = book_date.strftime('%Y-%m-%d')
     booking_date_url = booking_url + book_date_str
     return booking_date_url
@@ -30,11 +30,20 @@ def write_out(message):
      with open('Bartley_Booker_Logs.txt','a+') as f:
                 f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message + "\n")
                 print(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message) #For test purposes only
+#Wait for 1200:01
+def wait():    
+    curr = datetime.datetime.today()
+    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=1, microsecond=0)
+    wait_time = start - curr
+    write_out('Waiting for {}'.format(wait_time))
+    wait_time_int = wait_time.total_seconds()            
+    time.sleep(wait_time_int)
+    write_out('Starting...')  
 
 # In[11]:
 
 def book_facility():
-    day_slots = slots[(datetime.datetime.today() + datetime.timedelta(days=1)).weekday()]
+    day_slots = slots[(datetime.datetime.today() + datetime.timedelta(days=1)).weekday()] #use 0 when testing 1 when executing
     
     if day_slots:
         write_out('Found desired booking slots, initating booking')
@@ -49,15 +58,9 @@ def book_facility():
             driver.find_element_by_xpath('//*[@id="txtUser"]').send_keys(keys["user_id"]) #User
             driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
             driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
-            #Wait for 12
-            curr = datetime.datetime.now()
-            start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=1, microsecond=0)
-            wait_time = start - curr
-            write_out('Waiting for {}'.format(wait_time))
-            wait_time_int = wait_time.total_seconds()            
-            time.sleep(wait_time_int)
-            write_out('Starting...')  
+            wait()    
             driver.refresh()
+
         except:
             write_out("Failed to logon, exiting webdriver")
             driver.quit()
