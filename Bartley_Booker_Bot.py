@@ -58,7 +58,7 @@ def book_facility():
             driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
             driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
             wait_for_tomorrow()    
-            driver.refresh()
+            driver.refresh() 
 
         except:
             write_out("Failed to logon, exiting webdriver")
