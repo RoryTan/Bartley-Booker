@@ -29,9 +29,8 @@ def booking_xpath(day_slot):
 def write_out(message):
      with open('Bartley_Booker_Logs.txt','a+') as f:
                 f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message + "\n")
-                print(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message) #For test purposes only
 #Wait for 1200:01
-def wait():    
+def wait_for_tomorrow():    
     curr = datetime.datetime.today()
     start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=1, microsecond=0)
     wait_time = start - curr
@@ -58,7 +57,7 @@ def book_facility():
             driver.find_element_by_xpath('//*[@id="txtUser"]').send_keys(keys["user_id"]) #User
             driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
             driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
-            wait()    
+            wait_for_tomorrow()    
             driver.refresh()
 
         except:
@@ -80,7 +79,7 @@ def book_facility():
             driver.switch_to.window(driver.window_handles[1])
             driver.find_element_by_xpath('//*[@id="SubPageContentArea"]/form/table/tbody/tr[5]/td/input').click()        
         except:
-            write_out("No available slots")
+            write_out("No available slots") 
         
         driver.quit()
     else:
