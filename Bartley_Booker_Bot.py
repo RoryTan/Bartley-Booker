@@ -30,14 +30,14 @@ def write_out(message):
      with open('Bartley_Booker_Logs.txt','a+') as f:
                 f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message + "\n")
 #Wait for 1200:01
-def wait_for_tomorrow():    
+def wait_for_tomorrow():
+    
     curr = datetime.datetime.today()
     start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=1, microsecond=0)
     wait_time = start - curr
-    write_out('Waiting for {}'.format(wait_time))
     wait_time_int = wait_time.total_seconds()            
-    time.sleep(wait_time_int)
-    write_out('Starting...')  
+    write_out('Waiting for {}'.format(wait_time_int))
+    time.sleep(wait_time_int)    
 
 # In[11]:
 
@@ -57,11 +57,12 @@ def book_facility():
             driver.find_element_by_xpath('//*[@id="txtUser"]').send_keys(keys["user_id"]) #User
             driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
             driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
-            wait_for_tomorrow()    
+            wait_for_tomorrow()
+            write_out('Starting...')    
             driver.refresh() 
 
-        except:
-            write_out("Failed to logon, exiting webdriver")
+        except ValueError as e:
+            write_out(e)
             driver.quit()
             
         #Select slots            
