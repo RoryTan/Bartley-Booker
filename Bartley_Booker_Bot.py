@@ -46,7 +46,7 @@ def verify_bookings():
     driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
     driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
     
-    book_date = datetime.datetime.today() + datetime.timedelta(days=15)#use 14 when testing 15 when executing
+    book_date = datetime.datetime.today() + datetime.timedelta(days=14) #always use 14
     book_date_str = book_date.strftime('%d/%m/%Y')
     booking_list = []
     booking_info = {}    
