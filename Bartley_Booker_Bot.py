@@ -14,6 +14,7 @@ import time
 def get_url(booking_url):
     book_date = datetime.datetime.today() + datetime.timedelta(days=15)#use 14 when testing 15 when executing
     book_date_str = book_date.strftime('%Y-%m-%d')
+    print(book_date_str)
     booking_date_url = booking_url + book_date_str
     return booking_date_url
 
@@ -28,7 +29,7 @@ def write_out(message):
 def wait_for_tomorrow():
     
     curr = datetime.datetime.today()
-    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=1, microsecond=0)
+    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=4, microsecond=0)
     wait_time = start - curr
     wait_time_int = wait_time.total_seconds()            
     write_out('Waiting for {}'.format(wait_time_int))
