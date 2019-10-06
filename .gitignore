@@ -1,5 +1,5 @@
 Book_Courts.bat
 config.py
 Bartley_Booker_Logs.txt
-.ipynb_checkpoints/
+.ipynb_checkpoints/*
 __pycache__
