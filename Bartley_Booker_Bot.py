@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[ ]:
 
 
 from config import *
@@ -12,7 +12,7 @@ import datetime
 import time
 
 
-# In[4]:
+# In[ ]:
 
 
 #Get date 2 weeks from now and convert to urlstring
@@ -31,16 +31,16 @@ def write_out(message):
      with open('Bartley_Booker_Logs.txt','a+') as f:
                 f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message + "\n")
 #Wait for 1200:01
-def wait_for_tomorrow():
-    
+def wait_for_tomorrow():    
     curr = datetime.datetime.today()
     start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=4, microsecond=0)
     wait_time = start - curr
-    wait_time_int = wait_time.total_seconds()            
+    wait_time_int = wait_time.total_seconds()    
     write_out('Waiting for {}'.format(wait_time_int))
+    time.sleep(wait_time_int)
 
 
-# In[5]:
+# In[ ]:
 
 
 def book_facility():
@@ -96,12 +96,12 @@ def book_facility():
 
         #Exit Chrome Driver
         driver.quit()
-
+        write_out("----------End of Booking----------") 
     else:
         write_out('Found no desired booking slots for ' + datetime.datetime.today().weekday()) 
 
 
-# In[6]:
+# In[ ]:
 
 
 def verify_bookings():
@@ -143,18 +143,13 @@ def verify_bookings():
         else:
             continue
     driver.quit()
-
-
-# In[7]:
-
-
-if __name__ == '__main__':
-    book_facility()
-    verify_bookings()
+    write_out("----------End of Verification----------") 
 
 
 # In[ ]:
 
 
-
+if __name__ == '__main__':
+    book_facility()
+    verify_bookings()
 
