@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[3]:
 
 
 from config import *
@@ -12,7 +12,7 @@ import datetime
 import time
 
 
-# In[2]:
+# In[4]:
 
 
 #Get date 2 weeks from now and convert to urlstring
@@ -40,7 +40,7 @@ def wait_for_tomorrow():
     write_out('Waiting for {}'.format(wait_time_int))
 
 
-# In[3]:
+# In[5]:
 
 
 def book_facility():
@@ -52,15 +52,15 @@ def book_facility():
 
         try:            
             #Run Headless
-                chrome_options = Options()
-                chrome_options.add_argument("--headless")
-                driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
 #             driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
             driver.get(get_url(keys['booking_url']))
             driver.find_element_by_xpath('//*[@id="txtUser"]').send_keys(keys["user_id"]) #User
             driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
             driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
-                wait_for_tomorrow()
+            wait_for_tomorrow()
             write_out('Starting...')
             driver.refresh()            
         except:
@@ -101,7 +101,7 @@ def book_facility():
         write_out('Found no desired booking slots for ' + datetime.datetime.today().weekday()) 
 
 
-# In[4]:
+# In[6]:
 
 
 def verify_bookings():
@@ -145,10 +145,16 @@ def verify_bookings():
     driver.quit()
 
 
-# In[5]:
+# In[7]:
 
 
 if __name__ == '__main__':
     book_facility()
     verify_bookings()
+
+
+# In[ ]:
+
+
+
 
