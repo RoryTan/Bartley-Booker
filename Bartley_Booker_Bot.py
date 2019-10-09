@@ -18,7 +18,7 @@ import time
 #Get date 2 weeks from now and convert to urlstring
 def get_url(booking_url):
     book_date = datetime.datetime.today() + datetime.timedelta(days=15)#use 14 when testing 15 when executing
-#     book_date = datetime.datetime.today() + datetime.timedelta(days=14)#use 14 when testing 15 when executing
+    # book_date = datetime.datetime.today() + datetime.timedelta(days=14)#use 14 when testing 15 when executing
     book_date_str = book_date.strftime('%Y-%m-%d')
     booking_date_url = booking_url + book_date_str
     return booking_date_url
@@ -33,7 +33,7 @@ def write_out(message):
 #Wait for 1200:01
 def wait_for_tomorrow():    
     curr = datetime.datetime.today()
-    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=4, microsecond=0)
+    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=1, microsecond=0)
     wait_time = start - curr
     wait_time_int = wait_time.total_seconds()    
     write_out('Waiting for {}'.format(wait_time_int))
@@ -45,24 +45,24 @@ def wait_for_tomorrow():
 
 def book_facility():
     day_slots = slots[(datetime.datetime.today() + datetime.timedelta(days=1)).weekday()] #use 0 when testing 1 when executing
-#     day_slots = slots[(datetime.datetime.today() + datetime.timedelta(days=0)).weekday()] #use 0 when testing 1 when executing
+    # day_slots = slots[(datetime.datetime.today() + datetime.timedelta(days=0)).weekday()] #use 0 when testing 1 when executing
 
     if day_slots:
         write_out('Found desired booking slots, initating booking')
 
         try:            
             #Run Headless
-            chrome_options = Options()
-            chrome_options.add_argument("--headless")
-            driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
-#             driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
+            # chrome_options = Options()
+            # chrome_options.add_argument("--headless")
+            # driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
+            driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
             driver.get(get_url(keys['booking_url']))
             driver.find_element_by_xpath('//*[@id="txtUser"]').send_keys(keys["user_id"]) #User
             driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
             driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
             wait_for_tomorrow()
             write_out('Starting...')
-            driver.refresh()            
+            driver.get(get_url(keys['booking_url']))            
         except:
             driver.quit()
 
@@ -83,7 +83,7 @@ def book_facility():
                 try:
                     driver.find_element_by_xpath('//*[@id="HeaderTable"]/tbody/tr[1]/td/input[2]').click()
                 except:
-                    driver.refresh()
+                    driver.get(get_url(keys['booking_url']))
                     continue
                 try:
                     driver.switch_to.window(driver.window_handles[1])
