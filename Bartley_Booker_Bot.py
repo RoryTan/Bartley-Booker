@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[2]:
 
 
 from config import *
@@ -12,7 +12,7 @@ import datetime
 import time
 
 
-# In[ ]:
+# In[Functions]:
 
 
 #Get date 2 weeks from now and convert to urlstring
@@ -30,17 +30,16 @@ def booking_xpath(day_slot):
 def write_out(message):
      with open('Bartley_Booker_Logs.txt','a+') as f:
                 f.write(datetime.datetime.today().strftime('%Y-%m-%d:%H:%M:%S') + ": "+ message + "\n")
-#Wait for 1200:01
+# Wait for 1200:01
 def wait_for_tomorrow():    
     curr = datetime.datetime.today()
     start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=1, microsecond=0)
     wait_time = start - curr
     wait_time_int = wait_time.total_seconds()    
     write_out('Waiting for {}'.format(wait_time_int))
-    time.sleep(wait_time_int)
+    return wait_time_int    
 
-
-# In[ ]:
+# In[Booking]:
 
 
 def book_facility():
@@ -52,17 +51,16 @@ def book_facility():
 
         try:            
             #Run Headless
-            # chrome_options = Options()
-            # chrome_options.add_argument("--headless")
-            # driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
+#             chrome_options = Options()
+#             chrome_options.add_argument("--headless")
+#             driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
             driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
             driver.get(get_url(keys['booking_url']))
             driver.find_element_by_xpath('//*[@id="txtUser"]').send_keys(keys["user_id"]) #User
             driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
-            driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
-            wait_for_tomorrow()
-            write_out('Starting...')
-            driver.get(get_url(keys['booking_url']))            
+            # time.sleep(wait_for_tomorrow())            
+            driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit            
+            write_out('Starting...')            
         except:
             driver.quit()
 
@@ -77,22 +75,22 @@ def book_facility():
                         write_out('Trying to book for slot' + frame[day_slot])
                         driver.find_element_by_xpath(booking_xpath(frame[day_slot])).click()                                        
                     except:                    
-                        continue            
-
+                        continue
                 #Attempt to submit booking            
                 try:
                     driver.find_element_by_xpath('//*[@id="HeaderTable"]/tbody/tr[1]/td/input[2]').click()
                 except:
-                    driver.get(get_url(keys['booking_url']))
+                    driver.refresh()
                     continue
                 try:
                     driver.switch_to.window(driver.window_handles[1])
                     driver.find_element_by_xpath('//*[@id="SubPageContentArea"]/form/table/tbody/tr[5]/td/input').click()
                     break
-                except:
+                except Exception as err:
+                    write_out("Seq Failure msg: " + str(err))
                     continue                       
-            except ValueError as e:
-                write_out("e")                
+            except Exception as e:
+                write_out("Total Failure msg: " + str(e))
 
         #Exit Chrome Driver
         driver.quit()
@@ -101,7 +99,7 @@ def book_facility():
         write_out('Found no desired booking slots for ' + datetime.datetime.today().weekday()) 
 
 
-# In[ ]:
+# In[Verification]:
 
 
 def verify_bookings():
@@ -115,7 +113,7 @@ def verify_bookings():
     driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
     
     book_date = datetime.datetime.today() + datetime.timedelta(days=15)#use 14 when testing 15 when executing
-#     book_date = datetime.datetime.today() + datetime.timedelta(days=14)#use 14 when testing 15 when executing
+    # book_date = datetime.datetime.today() + datetime.timedelta(days=14)#use 14 when testing 15 when executing
     book_date_str = book_date.strftime('%d/%m/%Y')
     
     booking_list = []
@@ -146,7 +144,7 @@ def verify_bookings():
     write_out("----------End of Verification----------") 
 
 
-# In[ ]:
+# In[Main]:
 
 
 if __name__ == '__main__':
