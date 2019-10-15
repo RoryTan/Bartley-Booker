@@ -33,7 +33,7 @@ def write_out(message):
 # Wait for 1200:01
 def wait_for_tomorrow():    
     curr = datetime.datetime.today()
-    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=1, microsecond=0)
+    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=4, microsecond=0)
     wait_time = start - curr
     wait_time_int = wait_time.total_seconds()    
     write_out('Waiting for {}'.format(wait_time_int))
@@ -51,23 +51,23 @@ def book_facility():
 
         try:            
             #Run Headless
-#             chrome_options = Options()
-#             chrome_options.add_argument("--headless")
-#             driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
-            driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
+            # driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
             driver.get(get_url(keys['booking_url']))
             driver.find_element_by_xpath('//*[@id="txtUser"]').send_keys(keys["user_id"]) #User
             driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
-            # time.sleep(wait_for_tomorrow())            
-            driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit            
-            write_out('Starting...')            
+            time.sleep(wait_for_tomorrow())
+            write_out('Logging in...')            
+            driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit                        
         except:
             driver.quit()
 
         for i in range(3):
             try:
                 #refresh at midnight
-                write_out("starting attempt " + str(i+1))
+                write_out("Starting attempt " + str(i+1))
 
                 #Select slots with loop            
                 for day_slot in day_slots:
@@ -80,6 +80,7 @@ def book_facility():
                 try:
                     driver.find_element_by_xpath('//*[@id="HeaderTable"]/tbody/tr[1]/td/input[2]').click()
                 except:
+                    time.sleep(1)
                     driver.refresh()
                     continue
                 try:
@@ -87,10 +88,10 @@ def book_facility():
                     driver.find_element_by_xpath('//*[@id="SubPageContentArea"]/form/table/tbody/tr[5]/td/input').click()
                     break
                 except Exception as err:
-                    write_out("Seq Failure msg: " + str(err))
+                    write_out("Try failure: " + str(err))
                     continue                       
             except Exception as e:
-                write_out("Total Failure msg: " + str(e))
+                write_out("Total Failure: " + str(e))
 
         #Exit Chrome Driver
         driver.quit()
@@ -112,8 +113,7 @@ def verify_bookings():
     driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(keys["password"]) #Password
     driver.find_element_by_xpath('//*[@id="PageContentArea"]/form[1]/table/tbody/tr/td/table/tbody/tr/td/input[3]').click() #Submit
     
-    book_date = datetime.datetime.today() + datetime.timedelta(days=15)#use 14 when testing 15 when executing
-    # book_date = datetime.datetime.today() + datetime.timedelta(days=14)#use 14 when testing 15 when executing
+    book_date = datetime.datetime.today() + datetime.timedelta(days=14)
     book_date_str = book_date.strftime('%d/%m/%Y')
     
     booking_list = []
