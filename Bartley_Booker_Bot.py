@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# # Bartley Booking Bot
+
+# ### Import Packages
+
+# In[ ]:
 
 
 from config import *
@@ -10,9 +14,15 @@ from selenium.webdriver.chrome.options import Options
 import json
 import datetime
 import time
+from apiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+import pickle
+# import datefinder
 
 
-# In[Functions]:
+# ### Helper Functions
+
+# In[ ]:
 
 
 #Get date 2 weeks from now and convert to urlstring
@@ -37,9 +47,44 @@ def wait_for_tomorrow():
     wait_time = start - curr
     wait_time_int = wait_time.total_seconds()    
     write_out('Waiting for {}'.format(wait_time_int))
-    return wait_time_int    
+    return wait_time_int
 
-# In[Booking]:
+def create_event(book_time,duration = 1, time_zone = 'Asia/Singapore'):
+    
+    credentials = pickle.load(open("token.pkl", "rb"))
+    service = build("calendar", "v3", credentials = credentials)
+    calendar_id = 'rory.tan@gmail.com'
+    
+    book_time_end = book_time + datetime.timedelta(hours =1)    
+    event = {
+      'summary': 'Bartley Tennis Court Booking',
+      'location': 'Bartley Ridge, Singapore 368063',  
+      'start': {
+        'dateTime': book_time.strftime("%Y-%m-%dT%H:%M:%S"),
+        'timeZone': time_zone,
+      },
+      'end': {
+        'dateTime': book_time_end.strftime("%Y-%m-%dT%H:%M:%S"),
+        'timeZone': time_zone,
+      },
+      'attendees': [
+        {'email': 'angelamacherie@gmail.com'}
+      ],
+        'colorId': '10',
+      'reminders': {
+        'useDefault': False,
+        'overrides': [
+          {'method': 'email', 'minutes': 24 * 60},
+          {'method': 'popup', 'minutes': 60},
+        ],
+      },
+    }
+    return service.events().insert(calendarId=calendar_id, body=event).execute()
+
+
+# ### Facility booking
+
+# In[ ]:
 
 
 def book_facility():
@@ -100,10 +145,13 @@ def book_facility():
         write_out('Found no desired booking slots for ' + datetime.datetime.today().weekday()) 
 
 
-# In[Verification]:
+# ### Booking Verification & Calendar Invite
+
+# In[ ]:
 
 
 def verify_bookings():
+    
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     driver = webdriver.Chrome('./chromedriver_win32/chromedriver.exe',options=chrome_options)
@@ -132,22 +180,43 @@ def verify_bookings():
         booking_info = {'date': booking_date,
                         'time' : book_time,
                         'facility': facility}
-
+        
         booking_list.append(booking_info)
 
     for booking in booking_list:
         if booking['date'] == book_date_str:
+            book_time_str = booking['date'] + " " + booking['time']
+            book_time = datetime.datetime.strptime(book_time_str, '%d/%m/%Y %I%p')
+            create_event(book_time)
             write_out(json.dumps(booking))
         else:
             continue
     driver.quit()
-    write_out("----------End of Verification----------") 
+    write_out("----------End of Verification----------")
 
 
-# In[Main]:
+# In[ ]:
 
 
 if __name__ == '__main__':
     book_facility()
     verify_bookings()
+
+
+# ### Test Scripts Invite
+
+# #### First Time Setup
+
+# In[ ]:
+
+
+# scopes = ['https://www.googleapis.com/auth/calendar']
+# flow = InstalledAppFlow.from_client_secrets_file("Client_secretsfile.json", scopes=scopes)
+# credentials = flow.run_console()
+
+
+# In[ ]:
+
+
+# pickle.dump(credentials, open("token.pkl", "wb"))
 
