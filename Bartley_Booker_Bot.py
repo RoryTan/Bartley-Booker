@@ -57,7 +57,7 @@ def create_event(book_time,duration = 1, time_zone = 'Asia/Singapore'):
     
     book_time_end = book_time + datetime.timedelta(hours =1)    
     event = {
-      'summary': 'Bartley Tennis Court Booking',
+      'summary': 'Bartley Tennis Court Booking (Cass)',
       'location': 'Bartley Ridge, Singapore 368063',  
       'start': {
         'dateTime': book_time.strftime("%Y-%m-%dT%H:%M:%S"),
