@@ -43,7 +43,7 @@ def write_out(message):
 # Wait for 1200:01
 def wait_for_tomorrow():    
     curr = datetime.datetime.today()
-    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=4, microsecond=0)
+    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=2, microsecond=0)
     wait_time = start - curr
     wait_time_int = wait_time.total_seconds()    
     write_out('Waiting for {}'.format(wait_time_int))
@@ -119,21 +119,23 @@ def book_facility():
                     try:
                         write_out('Trying to book for slot' + frame[day_slot])
                         driver.find_element_by_xpath(booking_xpath(frame[day_slot])).click()                                        
-                    except:                    
+                    except:
                         continue
                 #Attempt to submit booking            
                 try:
                     driver.find_element_by_xpath('//*[@id="HeaderTable"]/tbody/tr[1]/td/input[2]').click()
-                except:
-                    time.sleep(1)
-                    driver.refresh()
+                except:                    
                     continue
                 try:
                     driver.switch_to.window(driver.window_handles[1])
                     driver.find_element_by_xpath('//*[@id="SubPageContentArea"]/form/table/tbody/tr[5]/td/input').click()
                     break
-                except Exception as err:
-                    write_out("Try failure: " + str(err))
+                except Exception as err:                                        
+                    write_out("No Confirmation window: " + str(err))
+                    driver.switch_to.window(driver.window_handles[0]) #Switch back to original tab
+                    driver.get(get_url(keys['booking_url']))
+                    time.sleep(1)
+                    write_out("Trying again...")
                     continue                       
             except Exception as e:
                 write_out("Total Failure: " + str(e))
@@ -201,22 +203,3 @@ def verify_bookings():
 if __name__ == '__main__':
     book_facility()
     verify_bookings()
-
-
-# ### Test Scripts Invite
-
-# #### First Time Setup
-
-# In[ ]:
-
-
-# scopes = ['https://www.googleapis.com/auth/calendar']
-# flow = InstalledAppFlow.from_client_secrets_file("Client_secretsfile.json", scopes=scopes)
-# credentials = flow.run_console()
-
-
-# In[ ]:
-
-
-# pickle.dump(credentials, open("token.pkl", "wb"))
-
