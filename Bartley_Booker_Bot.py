@@ -7,7 +7,6 @@
 
 # In[ ]:
 
-
 from config import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -43,7 +42,7 @@ def write_out(message):
 # Wait for 1200:01
 def wait_for_tomorrow():    
     curr = datetime.datetime.today()
-    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=2, microsecond=0)
+    start = (datetime.datetime.today() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=4, microsecond=0)
     wait_time = start - curr
     wait_time_int = wait_time.total_seconds()    
     write_out('Waiting for {}'.format(wait_time_int))
@@ -131,10 +130,9 @@ def book_facility():
                     driver.find_element_by_xpath('//*[@id="SubPageContentArea"]/form/table/tbody/tr[5]/td/input').click()
                     break
                 except Exception as err:                                        
-                    write_out("No Confirmation window: " + str(err))
-                    driver.switch_to.window(driver.window_handles[0]) #Switch back to original tab
-                    driver.get(get_url(keys['booking_url']))
+                    write_out("No Confirmation window: " + str(err))                                        
                     time.sleep(1)
+                    driver.refresh
                     write_out("Trying again...")
                     continue                       
             except Exception as e:
